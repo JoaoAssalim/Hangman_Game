@@ -1,7 +1,9 @@
 '''This for is a project to train my level in python
 The program gives you 3 chances to try guess the word, letter per letter.
 
-Contacts:
+Do you want to make a partnership or project?
+
+Contact-me:
 Email: assalim.py@gmail.com
 Instagram: JoaoAssalim_
 Github: JoaoAssalim'''
