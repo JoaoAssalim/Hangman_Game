@@ -1,8 +1,6 @@
 '''This for is a project to train my level in python
 The program gives you 3 chances to try guess the word, letter per letter.
-
 Do you want to make a partnership or project?
-
 Contact-me:
 Email: assalim.py@gmail.com
 Instagram: JoaoAssalim_
@@ -53,7 +51,8 @@ def points_0(): #hangman with 3 errors == You lose
     ''')
 
 typed_right = []
-words_typed = set()
+words_typed_wrong = set()
+
 #Functions choicing a word in the list
 def words_to_guess():
     list_animals = ['monkey','dog','cat','bear','bird','fish','chicken','cow','fox','horse'] #Animal List
@@ -62,28 +61,39 @@ def words_to_guess():
     
     totaly_lists = [list_animals, list_countries, list_colors] #store the 3 lists
     list_choiced = choice(totaly_lists) #Choice one of the lists
-    choiced_word = choice(list_choiced) #Choice a word in the list
+    choiced_word = choice(list_choiced) #Choice a word in the list choiced
+
     if list_choiced == list_animals: #verify if the choiced list is equal animal list
         print('Tip: this word is a animal' + '\n')
     elif list_choiced == list_countries:
         print('Tip: this word is a Country' + '\n')#verify if the choiced list is equal countries list
     elif list_choiced == list_colors:
         print('Tip: this word is a Color' + '\n')#verify if the choiced list is equal colors list
-    word_len = '_ '*len(choiced_word) #Print the number of letters in the word
+    
     points_3() #print the initial fork
-    print(word_len)
+    
+    #make a display with "_" to user see how many letters are correct and how many are left
+    display = []
+    for i in range(len(choiced_word)):
+        display += "_"
+    print(display)
 
     #Separate the word in letters
     lista_set = set()
-    for x in choiced_word: 
-        lista_set.add(x)
+    for i in choiced_word: 
+        lista_set.add(i)
     lista_set = sorted(lista_set) #arrange alphabetically
     chances = 3 #Chances to guess the word
+
     while True:
         letter = input(Fore.BLUE+'Type a letter: ').lower() #Try to guess any letter per time
         if len(letter) == 1:
-            words_typed.add(letter)
             if letter in lista_set: #if letter is in word, the program execute
+                for pos in range(len(choiced_word)):
+                    let = choiced_word[pos]
+                    if let == letter:
+                        display[pos] = let
+                        
                 typed_right.append(letter)
                 print(Fore.GREEN+'Letter in secret word')
                 #For letter in the List, a set add the letter to verify if is equal the user typed 
@@ -94,16 +104,20 @@ def words_to_guess():
                 if lista_set == list_typed_right: #Verify if all the letters is in 2 words
                     print(f"you Win, The word is: {choiced_word}")
                     break
+
             elif letter not in lista_set:#if letter is not in word, the program execute
+                words_typed_wrong.add(letter)
                 print(Fore.RED+'Letter not in secret word')
                 chances -=  1 #take a point for making a mistake
+
                 if chances == 2:
                     points_2()
                 elif chances == 1:
                     points_1()
                 elif chances == 0:
                     points_0()
-                    print(f'You lose, The word is: {choiced_word}')
+                    print(f'You losed, The word is: {choiced_word}')
                     break
-        print(f'Words Typed: {sorted(words_typed)}') #Print every letter typed
+        print(display)
+        print(Fore.RED+f'Words Typed wrong: {sorted(words_typed_wrong)}') #Print every letter typed
 words_to_guess()
